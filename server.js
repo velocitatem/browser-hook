@@ -4,7 +4,7 @@ const express = require('express');
 const app = express();
 const port = 3020;
 
-let stack = []
+let stack = [];
 
 wss.on('connection', function(ws) {
     console.log("browser connected");
@@ -23,7 +23,8 @@ function sendToAll(message) {
 }
 
 app.get("/get/stack", (req, res) => {
-    res.send(stack)
+    let lastStackItem = stack.pop();
+    res.send(lastStackItem);
 });
 
 app.get('/send/:data', (req, res) => {
