@@ -4,10 +4,13 @@ const express = require('express');
 const app = express();
 const port = 3020;
 
+let stack = []
 
 wss.on('connection', function(ws) {
+    console.log("browser connected");
     ws.on('message', function(message) {
         console.log('received: %s', message);
+        stack.push(message.toString());
     });
     ws.send('something');
 })
@@ -18,6 +21,10 @@ function sendToAll(message) {
         client.send(message);
     });
 }
+
+app.get("/get/stack", (req, res) => {
+    res.send(stack)
+});
 
 app.get('/send/:data', (req, res) => {
     sendToAll(req.params.data);
